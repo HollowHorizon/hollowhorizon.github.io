@@ -1,0 +1,8 @@
+body {
+  background: linear-gradient(135deg, #001d35 0%, #0a397f 100%);
+}
+
+h1 {
+  color: navy;
+  margin-left: 20px;
+}
