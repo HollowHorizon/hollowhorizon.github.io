@@ -1,10 +1,159 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <title>Список Событий</title>
+    <style>
+    
+    @font-face {
+    font-family: "Minecraft";
+    src: url("mc_font.ttf") format("truetype");
+    }
+
+    body {
+        background: rgb(0, 0, 0, 1.0);
+
+        margin: 0;
+        padding: 0;
+        font-family: 'Minecraft';
+    }
+
+    .header {
+
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 9999;
+
+        background-image: url("event_list.png");
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+
+        width: 100%;
+        height: 150px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 58px;
+    }
+
+    body::-webkit-scrollbar {
+        width: 0px;
+        background: transparent; /* make scrollbar transparent */
+    }
+
+    .events {
+
+        margin: 50px auto;
+        width: 100%;
+
+        position: relative;
+
+        transform: translateY(120px);
+    }
+
+    .event {
+        display: flex;
+
+        background-image: url("event_list_value.png");
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+
+        width: 100%;
+        height: 150px;
+
+        align-items: center;
+        margin-bottom: 20px;
+        position: relative;
+    }
+
+    .event-icon {
+        position: absolute;
+        width: 50px;
+        height: 50px;
+
+        left: 0;
+        top: 50%;
+        transform: translate(50%, -50%);
+    }
+
+    .event-text {
+        color: white;
+        margin-left: 2.7%;
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translate(60px, -50%);
+    }
+
+    </style>
 </head>
 <body>
-<h1>Когда-нибудь сделаю себе сайт, но не в этот раз.</h1>
-<p>Тестирую сайт...</p>
+<div class="header">Список событий</div>
+<div class="events">
+    <div class="event">
+        <img src="dialogue_icon.png" alt="icon" class="event-icon">
+        <div class="event-text">Поговорите... Хоть с кем-то...</div>
+    </div>
+    <div class="event">
+        <img src="question_icon.png" alt="mirror" class="event-icon">
+        <div class="event-text">Разберитесь, как же всё-таки работает линейная алгебра</div>
+    </div>
+    <div class="event">
+        <img src="warn_icon.png" alt="icon" class="event-icon">
+        <div class="event-text">Сделайте MTR</div>
+    </div>
+    <div class="event">
+        <img src="dialogue_icon.png" alt="icon" class="event-icon">
+        <div class="event-text">Поговорите... Хоть с кем-то...</div>
+    </div>
+    <div class="event">
+        <img src="question_icon.png" alt="mirror" class="event-icon">
+        <div class="event-text">Разберитесь, как же всё-таки работает линейная алгебра</div>
+    </div>
+    <div class="event">
+        <img src="warn_icon.png" alt="icon" class="event-icon">
+        <div class="event-text">Сделайте MTR</div>
+    </div>
+    <div class="event">
+        <img src="dialogue_icon.png" alt="icon" class="event-icon">
+        <div class="event-text">Поговорите... Хоть с кем-то...</div>
+    </div>
+    <div class="event">
+        <img src="question_icon.png" alt="mirror" class="event-icon">
+        <div class="event-text">Разберитесь, как же всё-таки работает линейная алгебра</div>
+    </div>
+    <div class="event">
+        <img src="warn_icon.png" alt="icon" class="event-icon">
+        <div class="event-text">Сделайте MTR</div>
+    </div>
+    <div class="event">
+        <img src="dialogue_icon.png" alt="icon" class="event-icon">
+        <div class="event-text">Поговорите... Хоть с кем-то...</div>
+    </div>
+    <div class="event">
+        <img src="question_icon.png" alt="mirror" class="event-icon">
+        <div class="event-text">Разберитесь, как же всё-таки работает линейная алгебра</div>
+    </div>
+    <div class="event">
+        <img src="warn_icon.png" alt="icon" class="event-icon">
+        <div class="event-text">Сделайте MTR</div>
+    </div><div class="event">
+    <img src="dialogue_icon.png" alt="icon" class="event-icon">
+    <div class="event-text">Поговорите... Хоть с кем-то...</div>
+</div>
+    <div class="event">
+        <img src="question_icon.png" alt="mirror" class="event-icon">
+        <div class="event-text">Разберитесь, как же всё-таки работает линейная алгебра</div>
+    </div>
+    <div class="event">
+        <img src="warn_icon.png" alt="icon" class="event-icon">
+        <div class="event-text">Сделайте MTR</div>
+    </div>
+
+</div>
 </body>
 </html>
