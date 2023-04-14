@@ -11,6 +11,7 @@
     }
 
     body {
+        overflow-x: hidden;
         background: rgb(0, 0, 0, 1.0);
 
         margin: 0;
@@ -66,8 +67,13 @@
         height: 150px;
 
         align-items: center;
-        margin-bottom: 20px;
+        margin-bottom: 2.5px;
         position: relative;
+        transition: transform .2s;
+    }
+
+    .event:hover {
+        transform: scale(1.1);
     }
 
     .event-icon {
@@ -78,6 +84,7 @@
         left: 0;
         top: 50%;
         transform: translate(50%, -50%);
+        transition: transform .2s;
     }
 
     .event-text {
@@ -87,6 +94,15 @@
         left: 0;
         top: 50%;
         transform: translate(60px, -50%);
+        transition: transform .2s;
+    }
+
+    .event:hover .event-icon {
+        transform: translate(50%, -50%) translateX(70px);   
+    }
+
+    .event:hover .event-text {
+        transform: translate(60px, -50%) translateX(70px);   
     }
 
     </style>
