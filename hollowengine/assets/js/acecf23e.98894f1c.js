@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmy_docs=self.webpackChunkmy_docs||[]).push([[1903],{1912:o=>{o.exports=JSON.parse('{"blogBasePath":"/hollowengine/blog","blogTitle":"Blog","authorsListPath":"/hollowengine/blog/authors"}')}}]);
