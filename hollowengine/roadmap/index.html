@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hollow Engine Roadmap</title>
+    <style>
+        :root {
+            --bg-color: #0f1115;
+            --card-bg: #161b22;
+            --text-main: #e6edf3;
+            --text-muted: #8b949e;
+            --accent-yellow: #e3b341;
+            --accent-white: #ffffff;
+            --timeline-line: #30363d;
+            --hover-bg: rgba(227, 179, 65, 0.05);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            padding: 60px 20px;
+            background: radial-gradient(circle at center, #1c2128 0%, var(--bg-color) 100%);
+        }
+
+        .logo-container {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .gear-icon {
+            width: 100%;
+            height: 100%;
+            fill: none;
+            stroke: var(--accent-white);
+            stroke-width: 2;
+            transition: transform 1s ease, stroke 0.3s;
+        }
+        
+        .gear-inner {
+            fill: var(--accent-yellow);
+            opacity: 0.8;
+        }
+
+        .logo-container:hover .gear-icon {
+            transform: rotate(180deg);
+            stroke: var(--accent-yellow);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+            margin-bottom: 10px;
+        }
+
+        h1 span {
+            color: var(--accent-yellow);
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px 100px;
+        }
+
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 4px;
+            background-color: var(--timeline-line);
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -2px;
+            border-radius: 2px;
+        }
+
+        .container {
+            padding: 10px 40px;
+            position: relative;
+            background-color: inherit;
+            width: 50%;
+        }
+
+        .left { left: 0; }
+        .right { left: 50%; }
+
+        .container::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            right: -10px;
+            background-color: var(--bg-color);
+            border: 4px solid var(--accent-yellow);
+            top: 24px;
+            border-radius: 50%;
+            z-index: 1;
+            transition: all 0.3s ease;
+        }
+
+        .right::after {
+            left: -10px;
+        }
+
+        .container:hover::after {
+            background-color: var(--accent-yellow);
+            box-shadow: 0 0 15px var(--accent-yellow);
+        }
+
+        .content {
+            padding: 25px;
+            background-color: var(--card-bg);
+            position: relative;
+            border-radius: 12px;
+            border: 1px solid #30363d;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .content:hover {
+            transform: translateY(-3px);
+            border-color: var(--accent-yellow);
+        }
+
+        .version-tag {
+            display: inline-block;
+            background: rgba(227, 179, 65, 0.1);
+            color: var(--accent-yellow);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            margin-bottom: 8px;
+            color: var(--accent-white);
+        }
+
+        .card-desc {
+            font-style: italic;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--timeline-line);
+        }
+
+        /* Accordion Features */
+        ul.features {
+            list-style: none;
+        }
+
+        li.feature-item {
+            margin-bottom: 8px;
+            border-radius: 6px;
+            transition: background 0.2s;
+            cursor: pointer;
+            overflow: hidden;
+        }
+
+        li.feature-item:hover {
+            background: var(--hover-bg);
+        }
+
+        .feature-header {
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.95rem;
+            color: var(--text-main);
+        }
+
+        .feature-header strong {
+            color: #fff;
+            margin-right: 6px;
+        }
+
+        .arrow {
+            color: var(--accent-yellow);
+            font-size: 0.8rem;
+            transition: transform 0.3s ease;
+        }
+
+        .feature-item.active .arrow {
+            transform: rotate(180deg);
+        }
+
+        .feature-details {
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            
+            transition: max-height 0.3s ease-out, padding 0.3s ease, opacity 0.3s ease;
+            
+            padding: 0 10px; 
+            
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+            border-left: 2px solid var(--accent-yellow);
+            margin-left: 10px;
+        }
+
+        .feature-item.active .feature-details {
+            padding-top: 5px;
+            padding-bottom: 15px;
+            
+            max-height: 500px; 
+            opacity: 1;
+        }
+
+        @media screen and (max-width: 768px) {
+            .timeline::after { left: 31px; }
+            .container { width: 100%; padding-left: 70px; padding-right: 25px; }
+            .container::after { left: 21px; }
+            .left::after, .right::after { left: 21px; }
+            .right { left: 0%; }
+            h1 { font-size: 2rem; }
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            border-top: 1px solid var(--timeline-line);
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="logo-container">
+        <image src="logo.svg"></image>
+    </div>
+    
+    <h1>Hollow Engine <span>Roadmap</span></h1>
+    <p class="subtitle">От фундамента к производству</p>
+</header>
+
+<div class="timeline">
+
+    <!-- HE 2.0 -->
+    <div class="container left">
+        <div class="content">
+            <span class="version-tag">RELEASE 2.0</span>
+            <h2 class="card-title">The Foundation</h2>
+            <p class="card-desc">Базовый цикл разработки. Нажмите на пункты для подробностей.</p>
+            <ul class="features">
+                <li class="feature-item">
+                    <div class="feature-header">
+                        <span><strong>Блоки кода</strong> Визуальное программирование</span>
+                        <span class="arrow">▼</span>
+                    </div>
+                    <div class="feature-details">
+                        Понижает порог входа в движок. Временная альтернатива скриптам. Уже реализовано ~30% блоков из MCreator и десятки кастомных "suspend" блоков.
+                    </div>
+                </li>
+                <li class="feature-item">
+                    <div class="feature-header">
+                        <span><strong>ECS (Geary)</strong> Ядро движка</span>
+                        <span class="arrow">▼</span>
+                    </div>
+                    <div class="feature-details">
+                        Geary ECS с архетипами в основе. Разработка конвертера: ECS <-> KotlinX Serialization <-> Kool UI для удобного редактирования Data-классов без написания UI вручную.
+                    </div>
+                </li>
+                <li class="feature-item">
+                    <div class="feature-header">
+                        <span><strong>Редактор NPC</strong> + Компоненты</span>
+                        <span class="arrow">▼</span>
+                    </div>
+                    <div class="feature-details">
+                        Предпросмотр NPC, спавн и настройка их ECS компонентов через интерфейс. Базовое знакомство с Entity Component System.
+                    </div>
+                </li>
+                <li class="feature-item">
+                    <div class="feature-header">
+                        <span><strong>Модели и анимации</strong></span>
+                        <span class="arrow">▼</span>
+                    </div>
+                    <div class="feature-details">
+                        Настройка видимых костей, шейп-кеев, костей для предметов. Система анимаций (State Machine) с графом и условиями перехода, аналогичная Unity.
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- HE 2.1 -->
+    <div class="container right">
+        <div class="content">
+            <span class="version-tag">RELEASE 2.1</span>
+            <h2 class="card-title">Data-Driven & Scripting</h2>
+            <p class="card-desc">Полный контроль через код и файлы. Самый масштабный этап.</p>
+            <ul class="features">
+                <li class="feature-item">
+                    <div class="feature-header">
+                        <span><strong>Kotlin Scripting (.kts)</strong> + IDE</span>
+                        <span class="arrow">▼</span>
+                    </div>
+                    <div class="feature-details">
+                        Встроенная IDE с подсветкой синтаксиса. Снимает ограничения блоков кода, даёт полный контроль над логикой. Поддержка ScriptDefinition.
+                    </div>
+                </li>
+                <li class="feature-item">
+                    <div class="feature-header">
+                        <span><strong>Scripted UI</strong> Декларативный интерфейс</span>
+                        <span class="arrow">▼</span>
+                    </div>
+                    <div class="feature-details">
+                        Создание интерфейсов через KTS скрипты. Позволяет скриптерам создавать свои HUD и меню до появления визуального редактора.
+                    </div>
+                </li>
+                <li class="feature-item">
+                    <div class="feature-header">
+                        <span><strong>Asset Manager</strong> Внутриигровая IDE</span>
+                        <span class="arrow">▼</span>
+                    </div>
+                    <div class="feature-details">
+                        Просмотр и редактирование JSON, .mcfunction, картинок и моделей. Удобная работа с префабами и ресурсами без сворачивания игры.
+                    </div>
+                </li>
+                <li class="feature-item">
+                    <div class="feature-header">
+                        <span><strong>Система аддонов</strong></span>
+                        <span class="arrow">▼</span>
+                    </div>
+                    <div class="feature-details">
+                        Изоляция контента. Аддоны можно включать/отключать без перезапуска. Просто распространять и делиться контентом.
+                    </div>
+                </li>
+                <li class="feature-item">
+                    <div class="feature-header">
+                        <span><strong>Events 2.0</strong> Оптимизация</span>
+                        <span class="arrow">▼</span>
+                    </div>
+                    <div class="feature-details">
+                        Оптимизация текущей системы событий, повышение эффективности, особенно на клиентской стороне.
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- HE 2.2 -->
+    <div class="container left">
+        <div class="content">
+            <span class="version-tag">RELEASE 2.2</span>
+            <h2 class="card-title">Storytelling</h2>
+            <p class="card-desc">Инструменты для режиссуры, кино и атмосферы.</p>
+            <ul class="features">
+                <li class="feature-item">
+                    <div class="feature-header">
+                        <span><strong>Катсцены и Таймлайн</strong></span>
+                        <span class="arrow">▼</span>
+                    </div>
+                    <div class="feature-details">
+                        Секвенсор для настройки камеры, анимаций NPC и мира. Интеграция с физическим движком как "киллер-фича".
+                    </div>
+                </li>
+                <li class="feature-item">
+                    <div class="feature-header">
+                        <span><strong>Cinematic Audio</strong></span>
+                        <span class="arrow">▼</span>
+                    </div>
+                    <div class="feature-details">
+                        Независимая аудио-система для катсцен. Звуки "запекаются" под сцену для идеальной синхронизации, в отличие от динамического геймплейного аудио.
+                    </div>
+                </li>
+                <li class="feature-item">
+                    <div class="feature-header">
+                        <span><strong>Шейдеры и Постпроцессинг</strong></span>
+                        <span class="arrow">▼</span>
+                    </div>
+                    <div class="feature-details">
+                        Виньетка, ЧБ-фильтр, сепия, хроматическая аберрация, импакт-фреймы для боевых сцен, размытие и фокус в катсценах.
+                    </div>
+                </li>
+                <li class="feature-item">
+                    <div class="feature-header">
+                        <span><strong>Процедурные анимации</strong></span>
+                        <span class="arrow">▼</span>
+                    </div>
+                    <div class="feature-details">
+                        Рэгдоллы, физика одежды и волос. Добавляет реализма в катсцены и взаимодействие с миром.
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- HE 2.3 -->
+    <div class="container right">
+        <div class="content">
+            <span class="version-tag">RELEASE 2.3</span>
+            <h2 class="card-title">Gameplay Loop</h2>
+            <p class="card-desc">RPG механики, NPC и взаимодействие.</p>
+            <ul class="features">
+                <li class="feature-item">
+                    <div class="feature-header">
+                        <span><strong>Редактор диалогов</strong> (Graph)</span>
+                        <span class="arrow">▼</span>
+                    </div>
+                    <div class="feature-details">
+                        Визуальный редактор диалогов на основе графов. Интеграция с UI для отображения выборов и реплик.
+                    </div>
+                </li>
+                <li class="feature-item">
+                    <div class="feature-header">
+                        <span><strong>Продвинутый Pathfinder</strong></span>
+                        <span class="arrow">▼</span>
+                    </div>
+                    <div class="feature-details">
+                        NPC учатся паркурить и не застревать. Исправление проблем ванильного навигатора (кручение на месте).
+                    </div>
+                </li>
+                <li class="feature-item">
+                    <div class="feature-header">
+                        <span><strong>Компаньоны и Социум</strong></span>
+                        <span class="arrow">▼</span>
+                    </div>
+                    <div class="feature-details">
+                        Охота, помощь в добыче, защита. Системы репутации (локальная/фракционная). Настройка рынков, цен, реакций и даже любовных линий.
+                    </div>
+                </li>
+                <li class="feature-item">
+                    <div class="feature-header">
+                        <span><strong>NPC Боссы</strong></span>
+                        <span class="arrow">▼</span>
+                    </div>
+                    <div class="feature-details">
+                        Скриптуемые боссы с фазами, паттернами атак, анимациями и кастомными босс-барами.
+                    </div>
+                </li>
+                <li class="feature-item">
+                    <div class="feature-header">
+                        <span><strong>Visual UI Editor</strong></span>
+                        <span class="arrow">▼</span>
+                    </div>
+                    <div class="feature-details">
+                        Визуальный редактор поверх скриптовой системы UI. Drag-and-drop виджетов для простых меню.
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- HE 2.4 -->
+    <div class="container left">
+        <div class="content">
+            <span class="version-tag">RELEASE 2.4</span>
+            <h2 class="card-title">Modpack Tools</h2>
+            <p class="card-desc">Инструментарий для создания полноценных игр/модпаков.</p>
+            <ul class="features">
+                <li class="feature-item">
+                    <div class="feature-header">
+                        <span><strong>Runtime Registry</strong> (Сущности)</span>
+                        <span class="arrow">▼</span>
+                    </div>
+                    <div class="feature-details">
+                        Создание новых типов блоков/предметов/сущностей через файлы (Префабы) без хардкода. Обход ванильных регистров.
+                    </div>
+                </li>
+                <li class="feature-item">
+                    <div class="feature-header">
+                        <span><strong>Система Структур</strong></span>
+                        <span class="arrow">▼</span>
+                    </div>
+                    <div class="feature-details">
+                        Точка входа для модпаков. Генерация мира, хранение информации о NPC, триггерах и катсценах внутри структур. Достаточно просто интергрировать со скриптами
+                    </div>
+                </li>
+                <li class="feature-item">
+                    <div class="feature-header">
+                        <span><strong>Глобальное Аудио</strong></span>
+                        <span class="arrow">▼</span>
+                    </div>
+                    <div class="feature-details">
+                        Процедурное аудио, стриминг, многослойность на основе условий (расстояние, фаза боя). Привязывается к структурам или измерению.
+                    </div>
+                </li>
+                <li class="feature-item">
+                    <div class="feature-header">
+                        <span><strong>Редактор рецептов</strong></span>
+                        <span class="arrow">▼</span>
+                    </div>
+                    <div class="feature-details">
+                        Аналог KubeJS, но через UI. Фильтрация, поиск, просмотр изменений. Поддержка новых типов рецептов через скрипты.
+                    </div>
+                </li>
+                Примечание: Многое из этого вероятно хотелось бы добавить и раньше, но оно жёстко привязано к структурам, а это долгая и сложная система, которая к тому же постоянно переписывается моджангами.
+            </ul>
+        </div>
+    </div>
+
+    <!-- HE 2.5 -->
+    <div class="container right">
+        <div class="content">
+            <span class="version-tag">RELEASE 2.5</span>
+            <h2 class="card-title">Visuals & Polish</h2>
+            <p class="card-desc">Графика нового поколения и оптимизация.</p>
+            <ul class="features">
+                <li class="feature-item">
+                    <div class="feature-header">
+                        <span><strong>GPU Particles</strong></span>
+                        <span class="arrow">▼</span>
+                    </div>
+                    <div class="feature-details">
+                        Система частиц на основе вычислительных шейдеров (Compute Shaders). Аналог Unity Particle System / Photon.
+                    </div>
+                </li>
+                <li class="feature-item">
+                    <div class="feature-header">
+                        <span><strong>Instancing</strong> (GLTF)</span>
+                        <span class="arrow">▼</span>
+                    </div>
+                    <div class="feature-details">
+                        Поддержка инстансинга для кастомных моделей движка. Повышение производительности рендера в десятки раз.
+                    </div>
+                </li>
+                <li class="feature-item">
+                    <div class="feature-header">
+                        <span><strong>Advanced Lighting</strong></span>
+                        <span class="arrow">▼</span>
+                    </div>
+                    <div class="feature-details">
+                        (Экспериментально) Deferred Shading, Volumetric Fog. Требует сложного вмешательства в пайплайн шейдеров.
+                    </div>
+                </li>
+                <li class="feature-item">
+                    <div class="feature-header">
+                        <span><strong>OptiFine Support</strong></span>
+                        <span class="arrow">▼</span>
+                    </div>
+                    <div class="feature-details">
+                        Если будет спрос, то можно было бы написать и для него интеграцию, хоть и сидеть с дебаггером особо не хочется.
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    
+    <!-- Ideas -->
+    <div class="container left">
+        <div class="content" style="opacity: 0.8; border-style: dashed;">
+            <span class="version-tag" style="background: rgba(255,255,255,0.1); color: #fff;">FUTURE CONCEPTS</span>
+            <h2 class="card-title">Вне планов</h2>
+            <ul class="features">
+                <li class="feature-item">
+                    <div class="feature-header">
+                        <span><strong>Quest System</strong> (Graph)</span>
+                        <span class="arrow">▼</span>
+                    </div>
+                    <div class="feature-details">
+                        Квестовая система на основе графов в духе FTB Quests, но с возможностью прикреплять систему квестов к определённому нпс или блоку, предмету, а не только игроку. Также можно сделать систему довольно гибкой, чтобы пользователи могли даже делать свои системы прокачки.
+                    </div>
+                </li>
+                <li class="feature-item">
+                    <div class="feature-header">
+                        <span><strong>Dev Tools</strong></span>
+                        <span class="arrow">▼</span>
+                    </div>
+                    <div class="feature-details">
+                        Интеграция ботов, мониторинга, профайлинга, команд и администрирования. Возможно встроенная поддержка Git.
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+</div>
+
+<footer>
+    <p>&copy; 2026 Hollow Engine Development</p>
+</footer>
+
+<script>
+    document.querySelectorAll('.feature-item').forEach(item => {
+        item.addEventListener('click', () => {
+            item.classList.toggle('active');
+        });
+    });
+</script>
+
+</body>
+</html>
