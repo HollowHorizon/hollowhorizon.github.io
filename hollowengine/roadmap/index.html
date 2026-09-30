@@ -3,15 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HollowEngine — Roadmap</title>
+    <title>HollowEngine Roadmap</title>
     <style>
         :root {
             --bg-color: #0d1117;
             --card-bg: #161b22;
+            --card-bg-soft: #131820;
             --text-main: #c9d1d9;
             --text-muted: #8b949e;
             --accent-blue: #58a6ff;
-            --accent-green: #2ea44f;
+            --accent-green: #3fb950;
+            --accent-purple: #bc8cff;
+            --accent-orange: #d29922;
             --accent-white: #ffffff;
             --timeline-line: #30363d;
             --hover-bg: rgba(88, 166, 255, 0.05);
@@ -32,11 +35,14 @@
             overflow-x: hidden;
         }
 
-        /* Header */
         header {
             text-align: center;
-            padding: 60px 20px;
-            background: radial-gradient(circle at center, #1f2937 0%, var(--bg-color) 100%);
+            padding: 64px 20px 52px;
+            background:
+                radial-gradient(circle at 50% 20%, rgba(88, 166, 255, 0.14), transparent 32%),
+                radial-gradient(circle at 76% 35%, rgba(188, 140, 255, 0.08), transparent 28%),
+                var(--bg-color);
+            border-bottom: 1px solid rgba(48, 54, 61, 0.5);
         }
 
         h1 {
@@ -53,17 +59,27 @@
 
         .subtitle {
             color: var(--text-muted);
-            font-size: 1.1rem;
-            max-width: 650px;
+            font-size: 1.08rem;
+            max-width: 760px;
             margin: 0 auto;
         }
 
-        /* Timeline */
+        .roadmap-note {
+            max-width: 820px;
+            margin: 22px auto 0;
+            padding: 12px 16px;
+            border: 1px solid var(--timeline-line);
+            border-radius: 10px;
+            background: rgba(22, 27, 34, 0.72);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
         .timeline {
             position: relative;
-            max-width: 1000px;
+            max-width: 1050px;
             margin: 0 auto;
-            padding: 40px 20px 100px;
+            padding: 52px 20px 110px;
         }
 
         .timeline::after {
@@ -79,9 +95,8 @@
         }
 
         .container {
-            padding: 10px 40px;
+            padding: 12px 42px;
             position: relative;
-            background-color: inherit;
             width: 50%;
         }
 
@@ -96,10 +111,10 @@
             right: -10px;
             background-color: var(--bg-color);
             border: 4px solid var(--accent-blue);
-            top: 24px;
+            top: 30px;
             border-radius: 50%;
-            z-index: 1;
-            transition: all 0.3s ease;
+            z-index: 2;
+            transition: all 0.25s ease;
         }
 
         .right::after {
@@ -108,78 +123,104 @@
 
         .container:hover::after {
             background-color: var(--accent-blue);
-            box-shadow: 0 0 15px var(--accent-blue);
+            box-shadow: 0 0 16px rgba(88, 166, 255, 0.7);
         }
 
-        /* Специальный маркер для текущей стабильной версии */
-        .container.stable::after {
-            border-color: var(--accent-green);
-        }
-        .container.stable:hover::after {
+        .container.done::after { border-color: var(--accent-green); }
+        .container.done:hover::after {
             background-color: var(--accent-green);
-            box-shadow: 0 0 15px var(--accent-green);
+            box-shadow: 0 0 16px rgba(63, 185, 80, 0.65);
+        }
+
+        .container.after::after { border-color: var(--accent-purple); }
+        .container.after:hover::after {
+            background-color: var(--accent-purple);
+            box-shadow: 0 0 16px rgba(188, 140, 255, 0.65);
+        }
+
+        .container.ongoing::after,
+        .container.future::after { border-color: var(--accent-orange); }
+        .container.ongoing:hover::after,
+        .container.future:hover::after {
+            background-color: var(--accent-orange);
+            box-shadow: 0 0 16px rgba(210, 153, 34, 0.65);
         }
 
         .content {
             padding: 25px;
-            background-color: var(--card-bg);
+            background: linear-gradient(180deg, var(--card-bg) 0%, var(--card-bg-soft) 100%);
             position: relative;
             border-radius: 12px;
             border: 1px solid var(--timeline-line);
-            transition: transform 0.3s ease, border-color 0.3s ease;
+            transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
         }
 
         .content:hover {
             transform: translateY(-3px);
             border-color: var(--accent-blue);
+            box-shadow: 0 10px 26px rgba(0, 0, 0, 0.18);
         }
 
-        .content.stable-content:hover {
-            border-color: var(--accent-green);
-        }
+        .done .content:hover { border-color: var(--accent-green); }
+        .after .content:hover { border-color: var(--accent-purple); }
+        .ongoing .content:hover,
+        .future .content:hover { border-color: var(--accent-orange); }
 
         .version-tag {
             display: inline-block;
-            background: rgba(56, 139, 253, 0.1);
+            background: rgba(56, 139, 253, 0.10);
             color: var(--accent-blue);
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 700;
-            margin-bottom: 10px;
+            padding: 4px 11px;
+            border-radius: 999px;
+            font-size: 0.78rem;
+            font-weight: 800;
+            margin-bottom: 11px;
             font-family: var(--font-mono);
-            border: 1px solid rgba(56, 139, 253, 0.2);
+            border: 1px solid rgba(56, 139, 253, 0.22);
+            letter-spacing: 0.02em;
         }
 
-        .version-tag.stable-tag {
-            background: rgba(46, 164, 79, 0.1);
+        .version-tag.done-tag {
+            background: rgba(63, 185, 80, 0.10);
             color: var(--accent-green);
-            border-color: rgba(46, 164, 79, 0.2);
+            border-color: rgba(63, 185, 80, 0.22);
+        }
+
+        .version-tag.after-tag {
+            background: rgba(188, 140, 255, 0.10);
+            color: var(--accent-purple);
+            border-color: rgba(188, 140, 255, 0.22);
+        }
+
+        .version-tag.ongoing-tag,
+        .version-tag.future-tag {
+            background: rgba(210, 153, 34, 0.10);
+            color: var(--accent-orange);
+            border-color: rgba(210, 153, 34, 0.22);
         }
 
         .card-title {
-            font-size: 1.4rem;
+            font-size: 1.45rem;
             margin-bottom: 8px;
             color: var(--accent-white);
+            line-height: 1.25;
         }
 
         .card-desc {
-            font-style: italic;
             color: var(--text-muted);
-            margin-bottom: 20px;
+            margin-bottom: 18px;
             font-size: 0.95rem;
             padding-bottom: 15px;
             border-bottom: 1px solid var(--timeline-line);
         }
 
-        /* Accordion Features */
         ul.features {
             list-style: none;
         }
 
         li.feature-item {
-            margin-bottom: 8px;
-            border-radius: 6px;
+            margin-bottom: 7px;
+            border-radius: 7px;
             transition: background 0.2s;
             cursor: pointer;
             overflow: hidden;
@@ -194,6 +235,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            gap: 12px;
             font-size: 0.95rem;
             color: var(--text-main);
         }
@@ -203,11 +245,21 @@
             margin-right: 6px;
         }
 
+        .feature-meta {
+            color: var(--text-muted);
+        }
+
         .arrow {
+            flex: 0 0 auto;
             color: var(--accent-blue);
             font-size: 0.8rem;
-            transition: transform 0.3s ease;
+            transition: transform 0.25s ease;
         }
+
+        .done .arrow { color: var(--accent-green); }
+        .after .arrow { color: var(--accent-purple); }
+        .ongoing .arrow,
+        .future .arrow { color: var(--accent-orange); }
 
         .feature-item.active .arrow {
             transform: rotate(180deg);
@@ -218,37 +270,69 @@
             opacity: 0;
             overflow: hidden;
             transition: max-height 0.3s ease-out, padding 0.3s ease, opacity 0.3s ease;
-            padding: 0 10px; 
-            font-size: 0.85rem;
+            padding: 0 10px;
+            font-size: 0.86rem;
             color: var(--text-muted);
-            line-height: 1.5;
+            line-height: 1.55;
             border-left: 2px solid var(--accent-blue);
             margin-left: 10px;
         }
 
+        .done .feature-details { border-left-color: var(--accent-green); }
+        .after .feature-details { border-left-color: var(--accent-purple); }
+        .ongoing .feature-details,
+        .future .feature-details { border-left-color: var(--accent-orange); }
+
         .feature-item.active .feature-details {
             padding-top: 5px;
             padding-bottom: 15px;
-            max-height: 500px; 
+            max-height: 700px;
             opacity: 1;
         }
 
-        @media screen and (max-width: 768px) {
-            .timeline::after { left: 31px; }
-            .container { width: 100%; padding-left: 70px; padding-right: 25px; }
-            .container::after { left: 21px; }
-            .left::after, .right::after { left: 21px; }
-            .right { left: 0%; }
-            h1 { font-size: 2rem; }
+        .mini-list {
+            margin-top: 8px;
+            padding-left: 18px;
+        }
+
+        .mini-list li {
+            margin: 3px 0;
+        }
+
+        code {
+            font-family: var(--font-mono);
+            font-size: 0.92em;
+            color: #d2a8ff;
+            background: rgba(110, 118, 129, 0.12);
+            padding: 1px 5px;
+            border-radius: 5px;
         }
 
         footer {
             text-align: center;
-            padding: 40px;
+            padding: 40px 20px;
             color: var(--text-muted);
             font-size: 0.9rem;
             border-top: 1px solid var(--timeline-line);
-            margin-top: 40px;
+        }
+
+        @media screen and (max-width: 768px) {
+            header { padding-top: 46px; }
+            h1 { font-size: 2rem; }
+            .subtitle { font-size: 1rem; }
+            .timeline::after { left: 31px; }
+            .container {
+                width: 100%;
+                padding-left: 70px;
+                padding-right: 8px;
+            }
+            .container::after,
+            .left::after,
+            .right::after {
+                left: 21px;
+            }
+            .right { left: 0; }
+            .content { padding: 21px; }
         }
     </style>
 </head>
@@ -256,42 +340,77 @@
 
 <header>
     <h1>HollowEngine <span>Roadmap</span></h1>
-    <p class="subtitle">План развития мода-движка. Нажмите на интересующий пункт для подробностей.</p>
+    <p class="subtitle">
+        План развития движка: от инструментов создания мира к полноценной системе постановки,
+        игровой логики и сюжетов.
+    </p>
+    <div class="roadmap-note">
+        Примерные планы по развитию движка. График выхода новых фич может меняться, некоторые возможности могут появиться раньше, некоторые позже, чем указано.
+    </div>
 </header>
 
 <div class="timeline">
 
-    <div class="container left stable">
-        <div class="content stable-content">
-            <span class="version-tag stable-tag">RELEASE 2.2 (Текущая)</span>
-            <h2 class="card-title">Стабилизация & Полировка</h2>
-            <p class="card-desc">Фокус на оптимизации, багфиксах и закрытии QoL фичах пользователей.</p>
+    <div class="container left done">
+        <div class="content">
+            <span class="version-tag done-tag">RELEASED | 2.0–2.4</span>
+            <h2 class="card-title">Foundation</h2>
+            <p class="card-desc">
+                Основные системы движка уже готовы. Этот блок - все недавние изменения и выполненные задачи прошлого плана.
+            </p>
             <ul class="features">
                 <li class="feature-item">
                     <div class="feature-header">
-                        <span><strong>Багфиксы</strong> Повышение стабильности</span>
+                        <span><strong>Система аддонов</strong> <span class="feature-meta">Готово</span></span>
                         <span class="arrow">▼</span>
                     </div>
                     <div class="feature-details">
-                        Устранение ошибок текущей версии, оптимизация UI, доработка подсветки синтаксиса, подсказок и ошибок. Исправление обнаруженных багов
+                        Изолируемые и сторонние модули, загрузка расширений и отдельные системы вроде
+                        компилятора, физики и видео-плеера.
                     </div>
                 </li>
+
                 <li class="feature-item">
                     <div class="feature-header">
-                        <span><strong>Документация</strong> Примеры и гайды</span>
+                        <span><strong>Модели, анимации и материалы</strong> <span class="feature-meta">Готово</span></span>
                         <span class="arrow">▼</span>
                     </div>
                     <div class="feature-details">
-                        Написание подробных руководств по синтаксису Katari скриптов, верстке HSS интерфейсов и работе с моделями и анимациями.
+                        glTF/FBX/OBJ/geo.json, скелетная анимация, skinning, morph targets, <b>attachments</b>,
+                        <b>материалы через редактор графов</b> и редакторы анимаций.
                     </div>
                 </li>
+
                 <li class="feature-item">
                     <div class="feature-header">
-                        <span><strong>QoL улучшения</strong> По просьбам авторов</span>
+                        <span><strong>Таймлайн и Редактор кривых</strong> <span class="feature-meta">Расширенная версия</span></span>
                         <span class="arrow">▼</span>
                     </div>
                     <div class="feature-details">
-                        Мелкие доработки встроенной IDE и расширение стандартной библиотеки оберток над игровыми событиями.
+                        Таймлайн, камера и редактор кривых уже работают. В 2.5 будет улучшен способ взаимодействия с ключевыми кадрами,
+                        а более крупная переработка катсцен запланирована на 2.6.
+                    </div>
+                </li>
+
+                <li class="feature-item">
+                    <div class="feature-header">
+                        <span><strong>VFX-система</strong> <span class="feature-meta">Готово</span></span>
+                        <span class="arrow">▼</span>
+                    </div>
+                    <div class="feature-details">
+                        Эмиттеры, модули, меши, шлейфы, материалы и редактор эффектов. Дальнейшие улучшения будут
+                        развиваться поверх общей системы объектов и таймлайна.
+                    </div>
+                </li>
+
+                <li class="feature-item">
+                    <div class="feature-header">
+                        <span><strong>MCP-интеграция</strong> <span class="feature-meta">AI-инструменты</span></span>
+                        <span class="arrow">▼</span>
+                    </div>
+                    <div class="feature-details">
+                        AI-агенты уже могут работать с HollowEngine через MCP-плагин. Встраивать отдельный чат с
+                        подпиской на Claude/Codex прямо в мод пока не планируется.
                     </div>
                 </li>
             </ul>
@@ -300,146 +419,242 @@
 
     <div class="container right">
         <div class="content">
-            <span class="version-tag">NEXT RELEASES</span>
-            <h2 class="card-title">Система Аддонов</h2>
-            <p class="card-desc">Изоляция, экспорт проектов и удобное распространение контента.</p>
+            <span class="version-tag">СКОРО | RELEASE 2.5</span>
+            <h2 class="card-title">Объекты в мире и взаимодействие с ними</h2>
+            <p class="card-desc">
+                Наполнение мира, интерактивные объекты и более универсальный подход к созданию для блоков, предметов,
+                анимаций и звука.
+            </p>
             <ul class="features">
+
                 <li class="feature-item">
                     <div class="feature-header">
-                        <span><strong>Экспорт проектов</strong> Сборка в один клик</span>
+                        <span><strong>Объекты в мире</strong> <span class="feature-meta">Объекты вне Block/Entity</span></span>
                         <span class="arrow">▼</span>
                     </div>
                     <div class="feature-details">
-                        Возможность полностью запаковать ваши скрипты, модели, ассеты и UI-конфиги в один helib/jar файл для передачи другим пользователям или публикации на CurseForge/Modrinth.
+                        Лёгкие постоянные объекты мира для декораций и интерактивных элементов: записки, часы,
+                        бутылки, элементы механизмов, Зацикленные сохраняемые VFX и другое.
+                        <ul class="mini-list">
+                            <li>произвольный Transform и модели движка;</li>
+                            <li>постоянные VFX-источники;</li>
+                            <li><code>.node.kts</code> для поведения;</li>
+                            <li>формы взаимодействия / OBB-коллизии;</li>
+                            <li>сохранение и загрузка вместе с миром;</li>
+                            <li>интеграция со структурными блоками;</li>
+                            <li>возможность дальнейшего расширения компонентами.</li>
+                        </ul>
                     </div>
                 </li>
+
                 <li class="feature-item">
                     <div class="feature-header">
-                        <span><strong>Миграция на датапаки</strong> Модульная структура</span>
+                        <span><strong>Блоки и Предметы 2.0</strong> <span class="feature-meta">Геймплейный контент</span></span>
                         <span class="arrow">▼</span>
                     </div>
                     <div class="feature-details">
-                        Перевод внутренней файловой системы скриптов на структуру стандартных датапаков и ресурспаков игры, что исключает несовместимости при работе с вашими библиотеками.
+                        Поддержка <code>.node.kts</code> для блоков и предметов, моделей из движка,
+                        материалов и более удобного подхода вместо необходимости напрямую
+                        работать с регистрацией, как сейчас. (больше редакторов вместо кода)
+                    </div>
+                </li>
+
+                <li class="feature-item">
+                    <div class="feature-header">
+                        <span><strong>Таймлайн и Расширенные анимации</strong> <span class="feature-meta">QoL редакторов</span></span>
+                        <span class="arrow">▼</span>
+                    </div>
+                    <div class="feature-details">
+                        Чекбокс для автоматического размещения ключей при изменении параметров через Inspector или Gizmo. Отдельный объект для управления воспроизведением (можно будет зациклить эффект/анимацию до определённого условия, а потом его плавно завершить). Этот слой позже станет основой для новой системы катсцен 2.6 (например, зациклить анимацию в катсцене, пока игрок не выберет вариант ответа / не продолжит диалог).
+                    </div>
+                </li>
+
+                <li class="feature-item">
+                    <div class="feature-header">
+                        <span><strong>Аудио 2.0</strong> <span class="feature-meta">Нормальная система звука</span></span>
+                        <span class="arrow">▼</span>
+                    </div>
+                    <div class="feature-details">
+                        Переработка текущего аудио API: источники звука, их привязка звука к объектам / моделям,
+                        интеграция с Таймлайном и скриптингом.
+                    </div>
+                </li>
+
+                <li class="feature-item">
+                    <div class="feature-header">
+                        <span><strong>Физические формы</strong> <span class="feature-meta">Расширение физики</span></span>
+                        <span class="arrow">▼</span>
+                    </div>
+                    <div class="feature-details">
+                        Базовые хитбоксы остаются доступны без физического аддона, а с ним движок сможет
+                        использовать те же формы как полноценные физические коллайдеры. Это позволит делать
+                        интерактивные 3D-кнопки, UI-панели. Вполне возможно, появятся составные хитбоксы из нескольких частей и не только кубы :)
+                    </div>
+                </li>
+
+                <li class="feature-item">
+                    <div class="feature-header">
+                        <span><strong>Декали</strong> <span class="feature-meta">Экспериментально</span></span>
+                        <span class="arrow">▼</span>
+                    </div>
+                    <div class="feature-details">
+                        Возможно появится render-компонент для объектов в мире: граффити, трещины, грязь, кровь и другие
+                        проецируемые материалы на геометрию мира. Пока ничего не гарантирую, может потребоваться воевать с Iris.
                     </div>
                 </li>
             </ul>
         </div>
     </div>
 
-    <div class="container left">
+    <div class="container left after">
         <div class="content">
-            <span class="version-tag">NEXT RELEASES</span>
-            <h2 class="card-title">Кинематографичность & Визуал</h2>
-            <p class="card-desc">Продвинутая режиссура сюжетов и готовые графические решения.</p>
+            <span class="version-tag after-tag">ЧУТЬ ПОЗЖЕ | RELEASE 2.6</span>
+            <h2 class="card-title">Нарратив & Сценарии</h2>
+            <p class="card-desc">
+                Система, которая связывает созданный мир, NPC, эффекты и игровые события в сцены,
+                квесты и многоуровневую логику.
+            </p>
             <ul class="features">
+
                 <li class="feature-item">
                     <div class="feature-header">
-                        <span><strong>Расширенные катсцены</strong> Редактор кривых</span>
+                        <span><strong>HollowEngine: Narrative / Storytelling (Аддон)</strong> <span class="feature-meta">Рабочее название</span></span>
                         <span class="arrow">▼</span>
                     </div>
                     <div class="feature-details">
-                        Полноценное управление позами glTF-персонажей на таймлайне, анимация окружения, плавные переходы камеры по кривым и триггеры HUD/UI элементов во время сцен.
+                        Катсцены, диалоги и сюжетная логика выносятся в официальный аддон поверх
+                        ядра HollowEngine.
                     </div>
                 </li>
+
                 <li class="feature-item">
                     <div class="feature-header">
-                        <span><strong>Синхронизация звука</strong> Audio Timeline</span>
+                        <span><strong>Катсцены 2.0</strong> <span class="feature-meta">Подход на основе сцены</span></span>
                         <span class="arrow">▼</span>
                     </div>
                     <div class="feature-details">
-                        Таймлайн для аудиодорожек в редакторе катсцен (музыка, реплики). Автоматическая привязка субтитров к аудиофайлам формата OGG и синхронизация движений с таймкодами.
+                        Камера, погода, время и другие параметры перестают быть набором захардкоденных дорожек 
+                        и становятся обычными объектами сцены. Можно будет добавлять модели, объекты из мира,
+                        сущности и VFX, анимировать трансформацию, кости, материалы и параметры эффектов.
+                        Объекты и сущности мира не будут автоматически засорять сцену, добавлять их придётся вручную. (если их необходимо будет анимировать)
                     </div>
                 </li>
+
                 <li class="feature-item">
                     <div class="feature-header">
-                        <span><strong>Пресеты постпроцессинга</strong> Быстрые эффекты</span>
+                        <span><strong>Иерархический граф логики</strong> <span class="feature-meta">(Нодовая система)</span></span>
                         <span class="arrow">▼</span>
                     </div>
                     <div class="feature-details">
-                        Внедрение набора готовых шейдерных пресетов (сепия, размытие, ЧБ-фильтр, хроматическая аберрация) для быстрого изменения атмосферы мира через UI-систему.
+                        Иерархическая стейтмашина редактируемая через ноды. На верхнем уровне - главы, квесты, диалоги,
+                        задания и бои; каждый из которых может иметь свои цепочки нод - фазы босса, команды NPC, эффекты, условия и другие низкоуровневые действия.
+                    </div>
+                </li>
+
+                <li class="feature-item">
+                    <div class="feature-header">
+                        <span><strong>Прогресс и его представление</strong> <span class="feature-meta">Отдельно от графа</span></span>
+                        <span class="arrow">▼</span>
+                    </div>
+                    <div class="feature-details">
+                        На прошлом графе с нодами можно описать происходящее (квесты, задания, цели), а отдельная система прогресса уже отображает понятные игроку цели.
+                        Можно будет гибко настроить, где их показывать: HUD Оверлей, Список заданий, FTB Quests-подобный экран
+                        или полностью кастомный UI.
                     </div>
                 </li>
             </ul>
         </div>
     </div>
 
-    <div class="container right">
+    <div class="container right ongoing">
         <div class="content">
-            <span class="version-tag">FUTURE RELEASES</span>
-            <h2 class="card-title">Симуляция Живого Мира</h2>
-            <p class="card-desc">Группы NPC, виртуальные расписания городов и контент.</p>
+            <span class="version-tag ongoing-tag">ПО ХОДУ РАБОТЫ</span>
+            <h2 class="card-title">Постоянные улучшения</h2>
+            <p class="card-desc">
+                Небольшие функции, которые не требуют отдельного крупного релиза и могут появляться по мере необходимости.
+            </p>
             <ul class="features">
                 <li class="feature-item">
                     <div class="feature-header">
-                        <span><strong>Офлайн симуляция NPC</strong> Живые города</span>
+                        <span><strong>Патчфиндинг</strong> <span class="feature-meta">Паркур / QoL</span></span>
                         <span class="arrow">▼</span>
                     </div>
                     <div class="feature-details">
-                        Симуляция расписания жизни и маршрутов жителей, даже если чанки их нахождения не прогружены. При заходе игрока в чанк NPC создаются ровно в тех местах и статусах, где должны быть по графику, не нагружая сервер.
+                        Расширенный поисковик уже частично реализован. Оставшиеся небольшие улучшения, например,
+                        возможность NPC перепрыгивать препятствия будут добавляться без отдельного большого релиза.
                     </div>
                 </li>
+
                 <li class="feature-item">
                     <div class="feature-header">
-                        <span><strong>Расширенный патчфиндер</strong> Навигация групп</span>
+                        <span><strong>Документация</strong> <span class="feature-meta">Быстрый старт</span></span>
                         <span class="arrow">▼</span>
                     </div>
                     <div class="feature-details">
-                        Умный навигатор для групп NPC, позволяющий им корректно передвигаться по сложной архитектуре городов, преодолевать препятствия и не застревать, даже в выгруженных чанках))))
-                    </div>
-                </li>
-                <li class="feature-item">
-                    <div class="feature-header">
-                        <span><strong>Конструктор Боссов</strong> Механики боя</span>
-                        <span class="arrow">▼</span>
-                    </div>
-                    <div class="feature-details">
-                        Упрощенный API и инструменты для настройки фаз боссов (через встроенные checkpoint/jump и async/race-методы), спавна снарядов, призыва приспешников и визуальных эффектов.
-                    </div>
-                </li>
-                <li class="feature-item">
-                    <div class="feature-header">
-                        <span><strong>Генерация контента</strong> Предметы и блоки</span>
-                        <span class="arrow">▼</span>
-                    </div>
-                    <div class="feature-details">
-                        Добавление новых типов предметов, кастомных блоков, рецептов крафта и структур напрямую через конфигурационные файлы и префабы.
+                        Больше практических разделов формата «Как сделать ...»: работа с HUD, условиями диалогов,
+                        моделями NPC, UI, VFX, блоками, предметами и другими уже существующими возможностями,
+                        которые размазаны на 5-7 глав документации. Короче полируем документацию)
                     </div>
                 </li>
             </ul>
         </div>
     </div>
 
-    <div class="container left">
+    <div class="container left future">
         <div class="content">
-            <span class="version-tag">FUTURE RELEASES</span>
-            <h2 class="card-title">ИИ & Визуальное Кодирование</h2>
-            <p class="card-desc">Даже если у вас «Скилл Ищью», движком вы пользоваться сможете)</p>
+            <span class="version-tag future-tag">В БУДУЩЕМ | ПОТЕНЦИАЛЬНЫЕ АДДОНЫ</span>
+            <h2 class="card-title">Экспериментальные направления</h2>
+            <p class="card-desc">
+                Идеи, которые остаются интересными, но не являются обязательной частью ближайших релизов.
+            </p>
             <ul class="features">
+
                 <li class="feature-item">
                     <div class="feature-header">
-                        <span><strong>AI-Агенты для кодинга</strong> Скрипты по тексту</span>
+                        <span><strong>Фоновая симуляция NPC / Города</strong> <span class="feature-meta">Отдельный аддон</span></span>
                         <span class="arrow">▼</span>
                     </div>
                     <div class="feature-details">
-                        Интеграция нейросетевых помощников в IDE мода. Достаточно скормить текстовый сценарий, чтобы ИИ сгенерировал рабочий Katari-скрипт и попросил разметить точки в мире или указать нужные данные из игры (вроде id мобов или названия структуры).
+                        Расписания и упрощённая симуляция NPC вне загруженных чанков. Система нужна не каждому
+                        проекту, да и технически уже реализуема в рамках движка, хоть и местами запарно.
                     </div>
                 </li>
+
                 <li class="feature-item">
                     <div class="feature-header">
-                        <span><strong>Интерактивные ИИ-NPC</strong> Живой чат</span>
+                        <span><strong>AI Персонажи</strong> <span class="feature-meta">Живые диалоги</span></span>
                         <span class="arrow">▼</span>
                     </div>
                     <div class="feature-details">
-                        Подключение ИИ-генерации к диалогам с NPC. Игрок может написать произвольный ответ в чат, а персонаж ответит контекстно в рамках своей роли.
+                        Экспериментальный аддон для динамических NPC-диалогов на базе JEV или другой подходящей
+                        небольшой модели. Идея остаётся в планах, но не привязана к конкретной версии.
                     </div>
                 </li>
+
                 <li class="feature-item">
                     <div class="feature-header">
-                        <span><strong>Нодовые редакторы</strong> Визуальная логика</span>
+                        <span><strong>Встроенный AI агент / чатик</strong> <span class="feature-meta">Не в ближайших планах</span></span>
                         <span class="arrow">▼</span>
                     </div>
                     <div class="feature-details">
-                        Создание полноценных визуальных редакторов квестовых графов, диалогов и блоков кода для разработчиков, предпочитающих Blueprint-системы написанию текстового кода.
+                        Встроенный чат с Claude/Codex внутри игры пока не планируется: текущая MCP-интеграция уже
+                        позволяет внешним агентам полноценно работать с проектом без привязки HollowEngine к
+                        конкретной подписке или AI-провайдеру. Возможно в будущем я и решу добавить что-то подобное, 
+                        но явно без передовых моделей по подпискам, ибо это уже серая зона. В лучшем случае будет какая-нибудь
+                        собственная подписка движка, где под капотом будет тот же DeepSeek, Qwen или GLM.
+                    </div>
+                </li>
+
+                <li class="feature-item">
+                    <div class="feature-header">
+                        <span><strong>Оптимизация и расширение рендеринга</strong> <span class="feature-meta">Позже</span></span>
+                        <span class="arrow">▼</span>
+                    </div>
+                    <div class="feature-details">
+                        Дальнейшее развитие VFX и рендера: GPU/compute-симуляции, более сложное освещение,
+                        объёмный туман и другие системы, когда для них появится практическая необходимость.
+
+                        Сейчас у движка довольно хорошая производительность, так что тратить ещё пару сотен часов ради 5-10 лишних кадров не вижу смысла.
                     </div>
                 </li>
             </ul>
@@ -454,7 +669,7 @@
 
 <script>
     document.querySelectorAll('.feature-item').forEach(item => {
-        item.addEventListener('click', (e) => {
+        item.addEventListener('click', () => {
             item.classList.toggle('active');
         });
     });
